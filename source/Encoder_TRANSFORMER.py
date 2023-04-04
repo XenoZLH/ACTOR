@@ -2,7 +2,7 @@ import mindspore
 import mindspore.numpy as np
 from mindspore import Tensor, Parameter
 from mindspore import nn, ops
-from .Transformer import TransformerEncoderLayer, TransformerEncoder, TransformerDecoderLayer, TransformerDecoder
+from .Transformer import TransformerEncoderLayer, TransformerEncoder
 
 # ACTOR Transformer Encoder
 class Encoder_TRANSFORMER(nn.Cell):
