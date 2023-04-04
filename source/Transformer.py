@@ -2,6 +2,7 @@ import mindspore
 import mindspore.numpy as np
 from mindspore import Tensor, Parameter
 from mindspore import nn, ops
+from typing import Optional, Dict
 
 # Self Attention
 # Mindspore
