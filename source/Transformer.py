@@ -138,9 +138,9 @@ class TransformerDecoderLayer(nn.Cell):
                  activation: nn.Cell = nn.GELU,
                  norm: nn.Cell = nn.LayerNorm):
         super(TransformerDecoderLayer, self).__init__()
-        normalization1 = norm((dim,))
-        normalization2 = norm((dim,))
-        normalization3 = norm((dim,))
+        self.normalization1 = norm((dim,))
+        self.normalization2 = norm((dim,))
+        self.normalization3 = norm((dim,))
         
         self.attention1 = Attention(dim=dim,
                                    num_heads=num_heads,
