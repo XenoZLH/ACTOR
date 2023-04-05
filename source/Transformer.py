@@ -37,9 +37,9 @@ class Attention(nn.Cell):
         q = self.q(x_to_query)
         k = self.k(x_to_key)
         v = self.v(x_to_value)
-        q = ops.reshape(q, (b, n, self.num_heads, cq // self.num_heads))  # (b, n, h, c/h)
-        k = ops.reshape(k, (b, n, self.num_heads, ck // self.num_heads))
-        v = ops.reshape(v, (b, n, self.num_heads, cv // self.num_heads))
+        q = ops.reshape(q, (bq, nq, self.num_heads, cq // self.num_heads))  # (b, n, h, c/h)
+        k = ops.reshape(k, (bk, nk, self.num_heads, ck // self.num_heads))
+        v = ops.reshape(v, (bv, nv, self.num_heads, cv // self.num_heads))
 
         q = ops.transpose(q, (0, 2, 1, 3))
         k = ops.transpose(k, (0, 2, 1, 3))
@@ -54,7 +54,7 @@ class Attention(nn.Cell):
         attn = self.attn_drop(attn)
         out = self.attn_matmul_v(attn, v)
         out = ops.transpose(out, (0, 2, 1, 3))
-        out = ops.reshape(out, (b, n, c))
+        out = ops.reshape(out, (bq, nq, cq))
         out = self.out(out)
         out = self.out_drop(out)
 
@@ -130,14 +130,14 @@ class TransformerEncoder(nn.Cell):
 class TransformerDecoderLayer(nn.Cell):
     def __init__(self,
                  dim: int,
-                 num_layers: int,
                  num_heads: int,
                  mlp_dim: int,
+                 keep_prob: float = 1.,
                  attention_keep_prob: float = 1.0,
                  drop_path_keep_prob: float = 1.0,
                  activation: nn.Cell = nn.GELU,
                  norm: nn.Cell = nn.LayerNorm):
-        super(TransformerDecoder, self).__init__()
+        super(TransformerDecoderLayer, self).__init__()
         normalization1 = norm((dim,))
         normalization2 = norm((dim,))
         normalization3 = norm((dim,))
